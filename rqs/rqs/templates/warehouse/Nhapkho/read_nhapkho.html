@@ -1,0 +1,42 @@
+{% load widget_tweaks %}
+{% load humanize %}
+<div class="modal-header">
+  <h3 class="modal-title">Thông tin Đơn nhập</h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div>
+    Tên Hàng Hóa : <span class="badge badge-info">{{ nhapkho.san_pham }}</span>
+  </div>
+  <div>
+    số lượng : <span class="badge badge-info">{{ nhapkho.so_luong|apnumber }}</span>
+  </div>
+  <div>
+    giá nhập : <span class="badge badge-info">{{ nhapkho.gia_nhap|intcomma }}</span>
+  </div>
+  <div>
+    đơn vi tính : 
+    {% for i in nhapkho.don_vi_tinh.all %}
+      <span class="badge badge-info">{{i}}</span>
+    {% endfor %}
+  </div>
+  <div>
+    mua từ : <span class="badge badge-info">{{ nhapkho.mua_tu }}</span>
+  </div>
+  <div>
+    ghi chú : <span class="badge badge-info">{{ nhapkho.ghi_chu }}</span>
+  </div>
+  <div>
+    ngày nhập : <span class="badge badge-info">{{ nhapkho.ngay_nhap|naturaltime }}</span>
+  </div>
+  <div>
+     thành tiền : <span class="badge badge-info">{{ nhapkho.get_thanhtien }}</span>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+</div>

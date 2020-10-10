@@ -1,0 +1,53 @@
+{% extends 'layouts/base.html' %}
+{% block title %} Kho Hàng {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block content %}
+<div class="page-inner mt--5">
+    <div class="row mt--2">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Tác Vụ Kho</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="button">
+                        <li class="nav-item">
+                            <a class="nav-link"  href="{% url 'nhapkho' %}">
+                                <i class="fab fa-accusoft"></i>
+                                Nhập Kho
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  href="{% url 'sanpham' %}">
+                                <i class="fab fa-untappd"></i>
+                                Hàng Hóa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  href="{% url 'nguoiban' %}">
+                                <i class="fas fa-people-carry"></i>
+                                Nhà Cung Ứng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  href="{% url 'nhan' %}">
+                                <i class="fab fa-font-awesome-flag"></i>
+                                Nhãn
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  href="{% url 'donvi' %}">
+                                <i class="fab fa-uniregistry"></i>
+                                Đơn Vị
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock content %}

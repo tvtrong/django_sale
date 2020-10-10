@@ -1,0 +1,150 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} Nhãn {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+{% block content %}
+<div class="page-inner mt--5">
+    <div class="row mt--4">
+        <div class="col-md-12">
+            <div class="card">
+                <!-- Modal 1 with id="create-nhan"-->
+                <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Modal 2 with id="modal" -->
+                <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content"></div>
+                  </div>
+                </div>
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Nhãn DataLog</h4>
+                        <button class="btn btn-outline-white ml-auto"  type=button onClick="javascript:history.go(-1);">
+                        <i class="fas fa-level-up-alt"></i>
+                        </button>
+                        <button id="create-nhan" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                                <i class="fa fa-plus"></i>
+                                Tạo Nhãn
+                            </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="add-row" class="display table table-striped table-hover" >
+                            <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th style="width: 10%">Tác Vụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nhan in nhans %}
+                                <tr>
+                                    <td>{{ nhan.ten_nhan }}</td>
+                                    <td>
+                                        <div class="form-button-action">
+                                            
+                                            
+                                              <!-- Read nhan buttons -->
+                                              <button type="button" id="read-nhan" class="bs-modal btn btn-sm btn-info" data-form-url="{% url 'read_nhan' nhan.ten_nhan %}">
+                                                <span class="fa fa-eye"></span>
+                                              </button>&nbsp;
+                                              <!-- Update nhan buttons -->
+                                              <button type="button" id="update-nhan" class="bs-modal btn btn-sm btn-success" data-form-url="{% url 'update_nhan' nhan.ten_nhan %}">
+                                                <span class="fa fa-pencil"></span>
+                                              </button>&nbsp;
+                                              <!-- Delete nhan buttons -->
+                                              <button type="button" id="delete-nhan" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'delete_nhan' nhan.ten_nhan %}">
+                                                <span class="fa fa-trash"></span>
+                                              </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block javascripts %}
+<script >
+		$(document).ready(function() {
+			
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 13,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 13,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
+<script type="text/javascript">
+  $(function () {
+
+    // Update, Read and Delete nhan buttons open modal with id="modal" (default)
+    // The formURL is retrieved from the data of the element
+    $(".bs-modal").each(function () {
+      $(this).modalForm({
+          formURL: $(this).data('form-url')
+      });
+    });
+
+     // Create nhan button opens form in modal with id="create-modal"
+    $("#create-nhan").modalForm({
+        formURL: "{% url 'create_nhan' %}",
+        modalID: "#create-modal"
+    });
+
+  });
+</script>
+    <script src="{% static 'assets/js/jquery.bootstrap.modal.forms.js' %}"></script>
+{% endblock javascripts %}

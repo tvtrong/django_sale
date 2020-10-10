@@ -1,0 +1,26 @@
+{% load widget_tweaks %}
+<div class="modal-header">
+  <h3 class="modal-title">Thông tin Hàng Hóa</h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div>
+    Tên Hàng Hóa : <span class="badge badge-info">{{ sanpham.ten_sp }}</span>
+  </div>
+  <div>
+    mô tả Hàng Hóa : <span class="badge badge-info">{{ sanpham.mo_ta }}</span>
+  </div>
+  <div>
+    nhãn Hàng Hóa : 
+    {% for i in sanpham.nhan.all %}
+      <span class="badge badge-info">{{i}}</span>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+</div>
